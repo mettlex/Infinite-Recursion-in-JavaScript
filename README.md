@@ -18,7 +18,7 @@ count(1, 100_000)
 
 > InternalError: too much recursion
 
-The call stack is limited and the JavaScript engines on [Firefox (SpiderMonkey)](https://bugzilla.mozilla.org/show_bug.cgi?id=723959) & [Chrome (V8)](https://chromestatus.com/feature/5516876633341952) unlike [Safari (WebKit)](https://webkit.org/blog/6240/ecmascript-6-proper-tail-calls-in-webkit/) don't support proper tail call elimination of the ES2015 specification as of March 2023. For most JavaScript engines, when a function calls itself many times, it results in a stack overflow error if the number of recursive calls exceeds the maximum size of the call stack.
+The call stack is limited and the JavaScript engines on [Firefox (SpiderMonkey)](https://bugzilla.mozilla.org/show_bug.cgi?id=723959) & [Chrome (V8)](https://chromestatus.com/feature/5516876633341952) unlike [Safari (WebKit)](https://webkit.org/blog/6240/ecmascript-6-proper-tail-calls-in-webkit/) don't support proper tail call elimination of the ES2015 specification [as of 2023](https://world.hey.com/mgmarlow/what-happened-to-proper-tail-calls-in-javascript-5494c256). For most JavaScript engines, when a function calls itself many times, it results in a stack overflow error if the number of recursive calls exceeds the maximum size of the call stack.
 
 > _You might be asking: "What can be done to avoid overflowing the call stack?"_
 
