@@ -75,6 +75,47 @@ const fibonacci = async (n) => {
 await fibonacci(50_000) // gives a big integer
 ```
 
+_There is a **faster** alternative to the async-await code using [queueMicrotask](https://developer.mozilla.org/en-US/docs/Web/API/queueMicrotask). It's supported by all browsers and the popular server-side runtimes like [Node.js](https://nodejs.org), [Deno](https://deno.com) & [Bun](https://bun.sh)._
+
+## Let's make it faster!
+
+```js
+/**
+ * @param {(x: bigint) => void} cb
+ * @returns {void}
+ */
+function fibo(a = 0n, b = 1n, n = 0, cb) {
+  if (n < 1) {
+    return cb(b);
+  }
+
+  queueMicrotask(() => {
+    fibo(b, a + b, n - 1, cb);
+  });
+}
+```
+
+```js
+/**
+ * @param {number} n
+ * @param {(x: bigint) => void} callback
+ * @returns {void}
+ */
+function fibonacciFast(n, callback) {
+  fibo(BigInt(0), BigInt(1), n - 1, callback);
+}
+```
+
+Now we can use only a single promise to get the value from the callback function:
+
+```js
+const fasterResult = await new Promise((resolve) => {
+  fibonacciFast(50_000, (x) => {
+    resolve(x);
+  });
+})
+```
+
 **Happy Coding!**
 
-\- Mettle X
+\- [Mettle X](https://github.com/mettlex)
